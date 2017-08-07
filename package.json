@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "node index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,16 @@
   "bugs": {
     "url": "https://github.com/playnogames/stacks/issues"
   },
-  "homepage": "https://github.com/playnogames/stacks#readme"
+  "homepage": "https://github.com/playnogames/stacks#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.4.1"
+  }
 }
