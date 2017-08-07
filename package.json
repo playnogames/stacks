@@ -5,7 +5,7 @@
     "main": "app/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node app/index.js"
+        "start": "babel-node app/index.js"
     },
     "repository": {
         "type": "git",
@@ -23,7 +23,7 @@
         "react-dom": "^15.6.1"
     },
     "devDependencies": {
-        "babel-core": "^6.25.0",
+        "babel-cli": "^6.24.1",
         "babel-preset-env": "^1.6.0",
         "babel-preset-react": "^6.24.1",
         "webpack": "^3.4.1"

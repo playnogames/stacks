@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 const pg = require('pg');
 const username = process.env.username;
 const password = process.env.password;
-const connectionString = process.env.DATABASE_URL || 'postgres://'+username+':'+password+'@localhost/stacks';
+const connectionString = process.env.DATABASE_URL || `postgres://${username}:${password}@localhost/stacks`;
 const client = new pg.Client(connectionString);
 
 
