@@ -11,9 +11,10 @@ const { username, password, facebookId, facebookSecret }  = process.env
 const connectionString = process.env.DATABASE_URL || `postgres://${username}:${password}@localhost/stacks`;
 const client = new pg.Client(connectionString);
 
+app.use(express.static(path.join(__dirname, '../../build')));
 
 app.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname,'../client', '/index.html'));
+    response.sendFile(path.join(__dirname,'../../build/index.html'));
 }).listen(port, () => {
     console.log('Listening on port: ' + port);
 });
