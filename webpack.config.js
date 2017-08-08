@@ -10,7 +10,9 @@ let config = {
 		publicPath: '/'
 	},
 	module: {
-		loaders:[{ test: /\.(js)$/, use: 'babel-loader' }]
+		loaders:[
+			{ test: /\.(js)$/, use: 'babel-loader' }
+		]
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
