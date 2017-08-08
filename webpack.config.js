@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 let config = {
 	entry: './src/client/index.js',
 	output: {
-		path: path.resolve(__dirname, 'build'),
+		path: path.join(__dirname, '/build'),
 		filename: 'index_bundle.js',
 		publicPath: '/'
 	},
