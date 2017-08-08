@@ -18,6 +18,9 @@
     "url": "https://github.com/playnogames/stacks/issues"
   },
   "homepage": "https://github.com/playnogames/stacks#readme",
+  "engines": {
+    "node": "6.11.0"
+  },
   "dependencies": {
     "express": "^4.15.3",
     "passport": "^0.3.2",
