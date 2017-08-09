@@ -1,37 +1,47 @@
 {
-    "name": "stacks",
-    "version": "1.0.0",
-    "description": "Lose money with friends!",
-    "main": "app/index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "babel-node app/index.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/playnogames/stacks.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/playnogames/stacks/issues"
-    },
-    "homepage": "https://github.com/playnogames/stacks#readme",
-    "dependencies": {
-        "express": "^4.15.3",
-        "react": "^15.6.1",
-        "react-dom": "^15.6.1"
-    },
-    "devDependencies": {
-        "babel-cli": "^6.24.1",
-        "babel-preset-env": "^1.6.0",
-        "babel-preset-react": "^6.24.1",
-        "webpack": "^3.4.1"
-    },
-    "babel": {
-        "presets": [
-            "env",
-            "react"
-        ]
-    }
+  "name": "stacks",
+  "version": "1.0.0",
+  "description": "Lose money with friends!",
+  "main": "src/server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack && babel-node src/server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/playnogames/stacks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/playnogames/stacks/issues"
+  },
+  "homepage": "https://github.com/playnogames/stacks#readme",
+  "engines": {
+    "node": "6.11.0"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "pg": "^7.1.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router-dom": "^4.1.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.4.1"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ]
+  }
 }
