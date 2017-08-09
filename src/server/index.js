@@ -35,14 +35,20 @@ app.use(passport.session());
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
+
 // configures strategy to authenticate using facebook
 passport.use(new FacebookStrategy({ 
         clientID: facebookId,
         clientSecret: facebookSecret,
-        callbackURL: "http://localhost:3000/auth/facebook/callback"
+        callbackURL: 'http://localhost:3000/auth/facebook/callback',
+        profileFields: ['id','name','gender','emails', 'photos']
     },
     (accessToken, refreshToken, profile, callback) => { 
-        callback(null, profile)
+        let user = {
+            profile: profile._json,
+            token: accessToken
+        }
+        callback(null, user)
     })
 );
     
@@ -51,8 +57,8 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 
 // redirected to this route
 app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { successRedirect: '/'}), 
+    passport.authenticate('facebook'), 
     (req, res) => { 
-        
+        res.send(req.user);
     }
 );
