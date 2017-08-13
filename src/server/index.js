@@ -28,15 +28,14 @@ app.get('/', (request, response) => {
 const passport = facebookConfig();
 app.use(passport.initialize());
 app.use(passport.session());
-    
+
 // this route calls fb authentications
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
 // redirected to this route
 app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { successRedirect:'/' }), 
-    (req, res) => { 
-        res.send(req.user);
+    passport.authenticate('facebook'),
+    (req, res) => {
+        res.redirect(`/?${req.user}`);
     }
 );
-
