@@ -22,6 +22,7 @@
     "node": "6.11.0"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "express": "^4.15.3",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
