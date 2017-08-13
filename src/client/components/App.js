@@ -6,13 +6,9 @@ import Login from './Login';
 import Dashboard from './Dashboard';
 
 
-function loggedIn() {
-	return false;
-}
-
 function requireAuth(component) {
 	return (
-		loggedIn() ? component : <Login />
+		utils.isLoggedIn() ? component : <Login />
 	);
 }
 

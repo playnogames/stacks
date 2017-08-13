@@ -27,7 +27,6 @@
     "jsonwebtoken": "^7.4.2",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
-    "pg": "^7.1.0",
     "pg-promise": "^6.3.8",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

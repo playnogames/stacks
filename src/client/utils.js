@@ -1,15 +1,11 @@
 const utils = {
 
 	isLoggedIn(){
-		return sessionStorage.getItem('isLoggedIn');
-	},
-
-	login(){
-		sessionStorage.setItem('isLoggedIn', true);
+		return localStorage.getItem('token');
 	},
 
 	logout(){
-		sessionStorage.removeItem('isLoggedIn');
+		localStorage.removeItem('token');
 	}
 }
 
