@@ -3,13 +3,13 @@ import React from 'react';
 import utils from '../utils';
 
 function Profile(props) {
-	
-	const {id, first_name, created_at} = props.user
+
+	const { first_name, last_name, created_at, picture } = props.user
 	return (
 		<div>
 			<ul>
-				<li>{first_name}</li>
-				<li>{created_at}</li>
+				<img className='profile-picture' src={ picture }/>
+				<li>{ first_name } { last_name }</li>
 			</ul>
 		</div>
 	)

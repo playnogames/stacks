@@ -8,13 +8,6 @@ export function createToken(user) {
     );
 }
 
-export function verifyToken(token, callback) {
-	return jwt.verify(token, 'MY_SECRET_KEY', (error, result) => {
-		if (result) {
-			let {id, iat, exp} = result
-			callback(id)
-		} else {
-			console.log('JWT error:', error)
-		}
-	})
+export function verifyToken(token) {
+	return jwt.verify(token, 'MY_SECRET_KEY');
 }

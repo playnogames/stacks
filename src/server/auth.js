@@ -18,21 +18,22 @@ function facebookConfig(app) {
 	        callbackURL: 'http://localhost:3000/auth/facebook/callback',
 	        profileFields: ['id','name','emails', 'photos']
 	    },
-	    (accessToken, refreshToken, profile, callback) => {
+	    async (accessToken, refreshToken, profile, callback) => {
 	        let user = profile._json;
 	        user.token = accessToken;
 	        user.email = user.email || null;
+	        user.picture = user.picture.data.url || null;
 
-	        db.findUser(user.id)
-	        .then((result) => {
-	            console.log('user found:', result);
-	        }).catch((error) => {
-	        	console.log('user doesnt exist:', error)
+	        try {
+	        	let result = await db.findUser(user.id);
+	        	console.log('user found:', result);
+	        } catch (error){
+	        	console.log('user doesnt exist:', error);
 	        	db.createUser(user);
-	        }).then(() => {
-                let token = createToken(user);
-                callback(null, token);
-	        });
+	        }
+
+	        let token  = await createToken(user);
+	        callback(null, token);
 	    })
 	);
 

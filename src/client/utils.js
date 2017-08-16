@@ -20,11 +20,9 @@ const utils = {
 		localStorage.removeItem('token');
 	},
 
-	getUser(token){
-		return axios.get(`/user/?token=${token}`)
-			.then((response) => {
-				return response.data
-			})
+	async getUser(token){
+		let user = await axios.get(`/user/?token=${token}`);
+		return user.data;
 	}
 }
 

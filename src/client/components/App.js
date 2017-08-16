@@ -8,7 +8,7 @@ import Profile from './Profile';
 
 
 class App extends React.Component {
-	
+ 	 
 	constructor(){
 		super();
 
@@ -20,12 +20,10 @@ class App extends React.Component {
 		}
 	}
 
-	componentDidMount(){
+	async componentDidMount(){
 		if (this.state.token) {
-			utils.getUser(this.state.token)
-				.then((result) => {
-					this.setState({ user: result })
-				})
+			let user = await utils.getUser(this.state.token);
+			this.setState({ user })
 		}
 	}
 

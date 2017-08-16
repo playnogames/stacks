@@ -39,13 +39,12 @@ app.get('/auth/facebook/callback',
     (request, response) => response.redirect(`/?token=${request.user}`)
 );
 
-app.get('/user', (request, response) => {
-	verifyToken(request.query.token, (facebookId) => {
-		db.findUser(facebookId)
-			.then((result) => {
-				response.send(result);
-			}).catch((error) => {
-				console.log('user not found', error)
-			})
-	})
+app.get('/user', async (request, response) => {
+	try {
+		let facebookId = await verifyToken(request.query.token).id;
+		let userInfo = await db.findUser(facebookId);
+		response.send(userInfo);
+	} catch (error) {
+		console.log('user not found', error);
+	}
 })
