@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import db from './db';
 import facebookConfig from './auth';
+import { verifyToken } from './token';
 
 ////////////INIT///////////
 
@@ -35,7 +36,15 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 // redirected to this route
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook'),
-    (req, res) => {
-        res.redirect(`/?${req.user}`);
-    }
+    (request, response) => response.redirect(`/?token=${request.user}`)
 );
+
+app.get('/user', async (request, response) => {
+	try {
+		let facebookId = await verifyToken(request.query.token).id;
+		let userInfo = await db.findUser(facebookId);
+		response.send(userInfo);
+	} catch (error) {
+		console.log('user not found', error);
+	}
+})
