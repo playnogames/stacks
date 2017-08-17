@@ -1,6 +1,7 @@
 import query from 'query-string';
 import axios from 'axios';
 
+
 const utils = {
 
 	setToken(){
