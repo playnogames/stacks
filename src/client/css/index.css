@@ -1,0 +1,11 @@
+@import './fonts.css';
+
+.profile-picture {
+	border-radius: 50%;
+
+
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+}
