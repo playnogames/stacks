@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const utils = {
 
-	setToken(){
+	setToken() {
 		let token = query.parse(window.location.search).token
 		if (token) {
 			localStorage.setItem('token', token)
@@ -13,15 +13,15 @@ const utils = {
 		}
 	},
 
-	getToken(){
+	getToken() {
 		return localStorage.getItem('token');
 	},
 
-	logout(){
+	logout() {
 		localStorage.removeItem('token');
 	},
 
-	async getUser(token){
+	async getUser(token) {
 		let user = await axios.get(`/user/?token=${token}`);
 		return user.data;
 	}

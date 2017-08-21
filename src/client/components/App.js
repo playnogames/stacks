@@ -8,8 +8,7 @@ import Profile from './Profile';
 
 
 class App extends React.Component {
- 	 
-	constructor(){
+	constructor() {
 		super();
 
 		utils.setToken();
@@ -20,26 +19,31 @@ class App extends React.Component {
 		}
 	}
 
-	async componentDidMount(){
+	async componentDidMount() {
 		if (this.state.token) {
 			let user = await utils.getUser(this.state.token);
 			this.setState({ user })
 		}
 	}
 
-	render(){
+	render() {
 		let user = this.state.user
 		return (
 			<div>
-				{ user && <Profile user={ user }/> }
+				{ user && <Profile user={user}/> }
 				<BrowserRouter>
 					<Switch>
-
 						{ user  &&  
-							<Route exact path='/' component={ Dashboard }/>
+							<Route 
+								exact path="/" 
+								component={Dashboard}
+							/>
 						}
 
-						<Route path='/' component={ Login } />
+						<Route 
+							path="/" 
+							component={Login} 
+						/>
 					</Switch>
 				</BrowserRouter>
 			</div>
