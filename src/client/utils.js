@@ -1,6 +1,4 @@
 import query from 'query-string';
-import axios from 'axios';
-
 
 const utils = {
 
@@ -22,8 +20,8 @@ const utils = {
 	},
 
 	async getUser(token) {
-		let user = await axios.get(`/user/?token=${token}`);
-		return user.data;
+		let response = await fetch(`/user/?token=${token}`);
+		return response.json();
 	}
 }
 

@@ -9,7 +9,7 @@ function Profile(props) {
 	return (
 		<div>
 			<ul>
-				<img className="profile-picture" src={picture}/>
+				<img className="profile-picture" alt="user profile" src={picture}/>
 				<li>{first_name} {last_name}</li>
 			</ul>
 		</div>
