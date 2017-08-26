@@ -10,7 +10,9 @@ class Login extends React.Component {
 
 	render() {
 		return(
-			<a href="/auth/facebook">Login with facebook</a>
+			<div className="login-container">
+				<a className="login-link" href="/auth/facebook">Login with Facebook</a>
+			</div>
 		)
 	}
 }
