@@ -1,15 +1,16 @@
 import React from 'react';
+
 import utils from '../utils';
 
+
 class Login extends React.Component {
-	
-	constructor(){
+	constructor() {
 		super()
 	}
 
-	render(){
+	render() {
 		return(
-			<a href='/auth/facebook'>Login with facebook</a>
+			<a href="/auth/facebook">Login with facebook</a>
 		)
 	}
 }
