@@ -1,0 +1,90 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+
+// Variables
+$roboto: 'Roboto', sans-serif;
+
+$font-family-body:      $roboto;
+$font-family-size:      14px;
+
+
+// Mixins
+@mixin flex {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+
+@mixin flex-direction($dir) {
+	-webkit-flex-direction: $dir;
+	-ms-flex-direction: $dir;
+	flex-direction: $dir;
+}
+
+@mixin flex-align-self($align) {
+	-webkit-align-self: $align;
+	-ms-flex-item-align: $align;
+	align-self: $align;
+}
+
+
+// Styling
+body {
+	font-family: $font-family-body;
+	font-size: $font-family-size
+}
+
+.app {
+	position: relative;
+}
+
+.header-container {
+	h1 {
+		text-align: center;
+	}
+}
+
+.login-container {
+	text-align: center;
+
+	.login-link {
+		text-decoration: none;
+
+		&:hover, &:active, &:visited {
+			text-decoration: none;
+		}
+	}
+}
+
+.profile-container {
+	position: absolute;
+	top: 0; right: 0;
+
+	padding: 15px;
+
+	.profile-content {
+		@include flex;
+		@include flex-direction(column);
+
+		.profile-picture {
+			@include flex-align-self(center);
+
+			border-radius: 50%;
+			margin-bottom: 15px;
+		}
+
+		.profile-name {
+			margin: 0;
+		}
+	}
+}
+
+.dashboard-container {
+	.dashboard-header {
+		h3 {
+			text-align: center;
+		}
+	}
+}

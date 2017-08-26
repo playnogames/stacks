@@ -7,11 +7,11 @@ function Profile(props) {
 
 	const { first_name, last_name, created_at, picture } = props.user
 	return (
-		<div>
-			<ul>
+		<div className="profile-container">
+			<div className="profile-content">
 				<img className="profile-picture" alt="user profile" src={picture}/>
-				<li>{first_name} {last_name}</li>
-			</ul>
+				<p className="profile-name">{first_name} {last_name}</p>
+			</div>
 		</div>
 	)
 }

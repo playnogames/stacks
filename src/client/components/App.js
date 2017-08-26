@@ -30,19 +30,22 @@ class App extends React.Component {
 		let user = this.state.user
 		return (
 			<div>
+				<div className="header-container">
+					<h1>S T A C K S ! 💸</h1>
+				</div>
 				{ user && <Profile user={user}/> }
 				<BrowserRouter>
 					<Switch>
-						{ user  &&  
-							<Route 
-								exact path="/" 
+						{ user  &&
+							<Route
+								exact path="/"
 								component={Dashboard}
 							/>
 						}
 
-						<Route 
-							path="/" 
-							component={Login} 
+						<Route
+							path="/"
+							component={Login}
 						/>
 					</Switch>
 				</BrowserRouter>
