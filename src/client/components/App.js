@@ -11,15 +11,19 @@ class App extends React.Component {
 	constructor() {
 		super();
 
+		// when user logs in, server sends client token by redirecting the page with JWT token in the url query string
+		// grab token from url and set to localStorage
 		utils.setToken();
 
 		this.state = {
+			//get token from localStorage
 			token: utils.getToken(),
 			user: undefined
 		}
 	}
 
 	async componentDidMount() {
+		//after app mounts, if we have token, verify it with server and return user associated with token
 		if (this.state.token) {
 			let user = await utils.getUser(this.state.token);
 			this.setState({ user });
