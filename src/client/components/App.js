@@ -15,40 +15,36 @@ class App extends React.Component {
 
 		this.state = {
 			token: utils.getToken(),
-			user: null
+			user: undefined
 		}
 	}
 
 	async componentDidMount() {
 		if (this.state.token) {
 			let user = await utils.getUser(this.state.token);
-			this.setState({ user })
+			this.setState({ user });
 		}
 	}
 
 	render() {
-		let user = this.state.user
+		let loggedIn = typeof this.state.user !== 'undefined';
+		let user = this.state.user;
+
 		return (
 			<div>
 				<div className="header-container">
 					<h1>S T A C K S ! 💸</h1>
 				</div>
-				{ user && <Profile user={user}/> }
+
+				{ loggedIn && <Profile user={user}/> }
+
 				<BrowserRouter>
 					<Switch>
-						{ user  &&
-							<Route
-								exact path="/"
-								component={Dashboard}
-							/>
-						}
-
-						<Route
-							path="/"
-							component={Login}
-						/>
+						{ loggedIn  && <Route exact path="/" component={Dashboard}/>}
+						<Route path="/" component={Login}/>
 					</Switch>
 				</BrowserRouter>
+
 			</div>
 		);
 	}

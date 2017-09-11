@@ -15,7 +15,16 @@ export default {
         }
     },
 
-    async findUser(facebookId){
+    async createStockLastPriceTable(){
+        try { 
+            let result = await db.query('CREATE TABLE IF NOT EXISTS stock_last_price (id SERIAL PRIMARY KEY, ticker VARCHAR(4), current_price DECIMAL(6,2), last_updated TIMESTAMP)')
+            console.log('stock_last_price table active');
+        } catch (error) {
+            console.log('create stock table error:', error);
+        }
+    },
+
+    async getUser(facebookId){
         try {
             let result = await db.one(`SELECT * FROM users WHERE facebook_id = ${facebookId}`);
             return result;
@@ -24,13 +33,34 @@ export default {
         }
     },
 
-    async createUser(userInfo){
+    async getStockLastPrice(ticker){
+        try {
+            let result = await db.one(`SELECT * FROM stock_last_price WHERE "ticker" = '${ticker}'`);
+            return result;
+        } catch (error) {
+            console.log(error)
+            return null;
+        }
+    },
+
+
+    async addUser(userInfo){
         try {
             let result = await db.query('INSERT INTO users(first_name, last_name, email, facebook_id, created_at, picture) VALUES(${first_name}, ${last_name}, ${email}, ${id}, NOW(), ${picture})', userInfo)
             console.log("inserted user:", userInfo)
         } catch (error) {
-            console.log("createUser error:", error)
+            console.log("addUser error:", error)
+        }
+    },
+
+    async addStockLastPrice(stockData){
+        try {
+            let result = await db.query('INSERT INTO stock_last_price(ticker, current_price, last_updated) VALUES(${ticker}, ${current_price}, ${last_updated})', stockData)
+            console.log("added stock:", stockData.ticker)
+        } catch (error) {
+            console.log("addStockLastPrice error:", error)
         }
     }
+
 }
 

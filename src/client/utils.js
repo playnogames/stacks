@@ -20,8 +20,8 @@ const utils = {
 	},
 
 	async getUser(token) {
-		let response = await fetch(`/user/?token=${token}`);
-		return response.json();
+		let result = await fetch(`/user/?token=${token}`);
+		return result.json();
 	}
 }
 

@@ -7,7 +7,7 @@ import db from './db';
 
 const { facebookId, facebookSecret }  = process.env;
 
-function facebookConfig(app) {
+function facebookConfig() {
 	passport.serializeUser((user, done) => done(null, user));
 	passport.deserializeUser((user, done) => done(null, user));
 
@@ -25,11 +25,11 @@ function facebookConfig(app) {
 	        user.picture = user.picture.data.url || null;
 
 	        try {
-	        	let result = await db.findUser(user.id);
+	        	let result = await db.getUser(user.id);
 	        	console.log('user found:', result);
 	        } catch (error){
 	        	console.log('user doesnt exist:', error);
-	        	db.createUser(user);
+	        	db.addUser(user);
 	        }
 
 	        let token  = await createToken(user);
