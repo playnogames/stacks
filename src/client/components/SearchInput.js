@@ -1,7 +1,7 @@
 import React from 'react';
 import utils from '../utils';
 
-class SelectMenu extends React.Component {
+class SearchInput extends React.Component {
   constructor (props) {
     super(props)
 
@@ -37,4 +37,4 @@ class SelectMenu extends React.Component {
   }
 }
 
-export default SelectMenu;
+export default SearchInput;

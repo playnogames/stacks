@@ -18,7 +18,7 @@ class App extends React.Component {
 		this.state = {
 			//get token from localStorage
 			token: utils.getToken(),
-			user: undefined
+			user: null
 		}
 	}
 
@@ -31,7 +31,6 @@ class App extends React.Component {
 	}
 
 	render() {
-		let loggedIn = typeof this.state.user !== 'undefined';
 		let user = this.state.user;
 
 		return (
@@ -40,11 +39,11 @@ class App extends React.Component {
 					<h1>S T A C K S ! 💸</h1>
 				</div>
 
-				{ loggedIn && <Profile user={user}/> }
+				{ user && <Profile user={user}/> }
 
 				<BrowserRouter>
 					<Switch>
-						{ loggedIn  && <Route exact path="/" component={Dashboard}/>}
+						{ user  && <Route exact path="/" component={Dashboard}/>}
 						<Route path="/" component={Login}/>
 					</Switch>
 				</BrowserRouter>

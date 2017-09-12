@@ -24,6 +24,26 @@ const utils = {
 		return result.json();
 	},
 
+	async lookUpFriend(friendId){
+		let result = await fetch(`/friend/?friendId=${friendId}`);
+		return result.json();
+	},
+
+	async addFriend(friendId){
+		let payload = {
+			friendId: friendId,
+			JWT: localStorage.getItem('token')
+		}
+
+		fetch('/add_friend', 
+			{ 
+				method: 'post',
+				headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+				body: JSON.stringify(payload)
+
+		})
+	},
+
 	async getStock(ticker){
 		let result = await fetch(`stock/?ticker=${ticker}`);
 		return result.json();

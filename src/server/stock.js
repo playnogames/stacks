@@ -14,6 +14,7 @@ function isStockOutdated(stock){
 
 
 export default {
+    //optimize so no API requests happen when market is closed
 	async getLatestStockData(ticker){
         //query DB for stock data
 		let stock = await db.getStockLatest(ticker);
@@ -28,7 +29,8 @@ export default {
 			stock = {
 				ticker: ticker,
 				current_price: result.latestPrice,
-				last_updated: moment.utc().toISOString()
+				last_updated: moment.utc().toISOString(),
+                closing_price: result.previousClose
 			}
 
 			if (isStockNew){
@@ -44,3 +46,5 @@ export default {
 		return stock;
 	}
 }
+
+// example api response {"symbol":"AAPL","companyName":"Apple Inc.","primaryExchange":"Nasdaq Global Select","sector":"Technology","calculationPrice":"tops","latestPrice":160.84,"latestSource":"IEX real time price","latestTime":"10:39:59 AM","latestUpdate":1505227199384,"latestVolume":11847236,"iexRealtimePrice":160.84,"iexRealtimeSize":100,"iexLastUpdated":1505227199384,"delayedPrice":160.93,"delayedPriceTime":1505226333132,"previousClose":161.5,"change":-0.66,"changePercent":-0.00409,"iexMarketPercent":0.00995,"iexVolume":117880,"avgTotalVolume":27204843,"iexBidPrice":158,"iexBidSize":100,"iexAskPrice":162,"iexAskSize":100,"marketCap":830775271520,"peRatio":18.81,"week52High":164.94,"week52Low":102.53,"ytdChange":0.39044339216530344}
