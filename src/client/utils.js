@@ -22,6 +22,11 @@ const utils = {
 	async getUser(token) {
 		let result = await fetch(`/user/?token=${token}`);
 		return result.json();
+	},
+
+	async getStock(ticker){
+		let result = await fetch(`stock/?ticker=${ticker}`);
+		return result.json();
 	}
 }
 
