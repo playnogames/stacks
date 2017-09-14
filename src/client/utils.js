@@ -19,33 +19,32 @@ const utils = {
 		localStorage.removeItem('token');
 	},
 
-	async getUser(token) {
-		let result = await fetch(`/user/?token=${token}`);
+	async getPerson(token) {
+		let result = await fetch(`/person/?token=${token}`);
 		return result.json();
 	},
 
-	async lookUpFriend(friendId){
-		let result = await fetch(`/friend/?friendId=${friendId}`);
+	async searchFriend(friendId){
+		let result = await fetch(`/friend/search?friendId=${friendId}`);
 		return result.json();
 	},
 
-	async addFriend(friendId){
+	async requestFriend(friendId){
 		let payload = {
 			friendId: friendId,
-			JWT: localStorage.getItem('token')
+			token: localStorage.getItem('token')
 		}
 
-		fetch('/add_friend', 
+		fetch('/friend/request', 
 			{ 
 				method: 'post',
-				headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+				headers: {'Content-Type': 'application/json'},
 				body: JSON.stringify(payload)
-
 		})
 	},
 
-	async getStock(ticker){
-		let result = await fetch(`stock/?ticker=${ticker}`);
+	async searchStock(ticker){
+		let result = await fetch(`stock/search?ticker=${ticker}`);
 		return result.json();
 	}
 }

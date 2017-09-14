@@ -6,7 +6,7 @@ import { createToken } from './token';
 import db from './db';
 
 
-const { facebookId, facebookSecret }  = process.env;
+const { FB_ID, FB_PW }  = process.env;
 
 function facebookConfig() {
 	// what does this do??
@@ -15,8 +15,8 @@ function facebookConfig() {
 
 	// configuration to authenticate using facebook
 	passport.use(new FacebookStrategy({
-	        clientID: facebookId,
-	        clientSecret: facebookSecret,
+	        clientID: FB_ID,
+	        clientSecret: FB_PW,
 	        // redirect route after user authenticates on FB page
 	        callbackURL: 'http://localhost:3000/auth/facebook/callback',
 	        profileFields: ['id','name','emails', 'photos']
@@ -31,12 +31,12 @@ function facebookConfig() {
 
 	        try {
 	        	// check DB for user
-	        	let result = await db.getUser(user.id);
+	        	let result = await db.getPerson(user.id);
 	        	console.log('user found:', result);
 	        } catch (error){
 	        	// if user doesn't exist, add user to DB
 	        	console.log('user doesnt exist:', error);
-	        	db.addUser(user);
+	        	db.addPerson(user);
 	        }
 
 	        // create JWT token to be stored in client localStorage

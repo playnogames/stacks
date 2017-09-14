@@ -1,14 +1,14 @@
 import db from './db';
 
 export default {
-	async lookUp(id) {
+	async searchFriend(id) {
 		let friend = await db.getFriend(id);
 		return friend;
 	},
 
-	async add(userId, friendId) {
+	async requestFriend(personId, friendId) {
 		try {
-			db.addFriend([userId,friendId]);
+			db.requestFriend([personId,friendId]);
 		} catch (error) {
 			console.log(error);
 		}

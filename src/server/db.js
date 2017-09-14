@@ -1,18 +1,18 @@
 const pgp = require('pg-promise')();
 
-const { username, password }  = process.env
-const connectionString = process.env.DATABASE_URL || `postgres://${username}:${password}@localhost:5432/stacks`;
+const { DB_USER, DB_PW }  = process.env
+const connectionString = process.env.DATABASE_URL || `postgres://${DB_USER}:${DB_PW}@localhost:5432/stacks`;
 const db = pgp(connectionString);
 
 export default {
 // table init ___________________________
 
-    async createUsersTable(){
+    async createPersonTable(){
         try { 
-            let result = await db.query('CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, first_name VARCHAR(40), last_name VARCHAR(40), email VARCHAR(254), facebook_id BIGINT, created_at TIMESTAMP WITH TIME ZONE, picture VARCHAR(500))')
-            console.log('users table active');
+            let result = await db.query('CREATE TABLE IF NOT EXISTS person (id SERIAL PRIMARY KEY, first_name VARCHAR(40), last_name VARCHAR(40), email VARCHAR(254), facebook_id BIGINT, created_at TIMESTAMP WITH TIME ZONE, picture VARCHAR(500))')
+            console.log('person table active');
         } catch (error) {
-            console.log('create users table error:', error);
+            console.log('create person table error:', error);
         }
     },
 
@@ -27,30 +27,30 @@ export default {
 
     async createFriendshipTable(){
         try { 
-            let result = await db.query('CREATE TABLE IF NOT EXISTS friendship (id SERIAL PRIMARY KEY, user_id INT, friend_id INT, created_at TIMESTAMP, status SMALLINT)')
+            let result = await db.query('CREATE TABLE IF NOT EXISTS friendship (id SERIAL PRIMARY KEY, person_id INT, friend_id INT, created_at TIMESTAMP, status SMALLINT)')
             console.log('friendship table active');
         } catch (error) {
             console.log('create friendship table error:', error);
         }
     },
 
-// login user ___________________________
+// person ___________________________
 
-    async getUser(facebookId){
+    async getPerson(facebookId){
         try {
-            let result = await db.one(`SELECT * FROM users WHERE facebook_id = ${facebookId}`);
+            let result = await db.one(`SELECT * FROM person WHERE facebook_id = ${facebookId}`);
             return result;
         } catch (error) {
             throw error;
         }
     },
 
-    async addUser(userInfo){
+    async addPerson(personInfo){
         try {
-            let result = await db.query('INSERT INTO users(first_name, last_name, email, facebook_id, created_at, picture) VALUES(${first_name}, ${last_name}, ${email}, ${id}, ${created_at}, ${picture})', userInfo)
-            console.log('inserted user:', userInfo)
+            let result = await db.query('INSERT INTO person(first_name, last_name, email, facebook_id, created_at, picture) VALUES(${first_name}, ${last_name}, ${email}, ${id}, ${created_at}, ${picture})', personInfo)
+            console.log('inserted person:', personInfo)
         } catch (error) {
-            console.log('addUser error:', error)
+            console.log('addPerson error:', error)
         }
     },
 
@@ -59,16 +59,16 @@ export default {
 
     async getFriend(id){
         try {
-            let result = await db.one(`SELECT * FROM users WHERE id = ${id}`);
+            let result = await db.one(`SELECT * FROM person WHERE id = ${id}`);
             return result;
         } catch (error) {
             throw error;
         }
     },
 
-    async addFriend(ids){
+    async requestFriend(ids){
         try {
-            let result = await db.query('INSERT INTO friendship(user_id, friend_id, status) VALUES ($1, $2, 1), ($2, 1, 2)', ids)
+            let result = await db.query('INSERT INTO friendship(person_id, friend_id, status) VALUES ($1, $2, 1), ($2, 1, 2)', ids)
             console.log('added friendship request:', ids)
         } catch (error) {
             console.log('friendship error:', error)

@@ -2,7 +2,7 @@ import React from 'react';
 import utils from '../utils';
 
 class SearchInput extends React.Component {
-  constructor (props) {
+	constructor (props) {
     super(props)
 
     this.state = {

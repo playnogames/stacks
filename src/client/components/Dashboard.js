@@ -1,25 +1,19 @@
 import React from 'react';
 
-import StockWidget from './StockWidget';
-import Friend from './Friend';
+import StockSearch from './StockSearch';
+import FriendSearch from './FriendSearch';
 
 
 
 class Dashboard extends React.Component {
-	
-
-	// async submitFriendSearch(ticker){
-	// 	let friend = await utils.getStock(ticker);
-	// 	this.setState({ stock: stock })
-	// }
 
 	render(){
 		return(
 			<div className="dashboard-container">
 				<div className="dashboard-header">
 					<h3>DASHBOARD</h3>
-					<StockWidget />
-					<Friend />
+					<StockSearch />
+					<FriendSearch />
 				</div>
 				<div className="dashboard-content"></div>
 			</div>

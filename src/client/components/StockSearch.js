@@ -3,18 +3,18 @@ import React from 'react';
 import SearchInput from './SearchInput';
 import utils from '../utils';
 
-class StockWidget extends React.Component {
+class StockSearch extends React.Component {
     constructor(){
         super();
         this.state={
             stock: null
         }
 
-        this.submitTickerSearch = this.submitTickerSearch.bind(this);
+        this.getStockInfo = this.getStockInfo.bind(this);
     }
 
-    async submitTickerSearch(ticker){
-        let stock = await utils.getStock(ticker);
+    async getStockInfo(ticker){
+        let stock = await utils.searchStock(ticker);
         this.setState({ stock: stock });
     }
     
@@ -23,7 +23,7 @@ class StockWidget extends React.Component {
 
         return(
             <div>
-                <SearchInput submit={this.submitTickerSearch} />
+                <SearchInput submit={this.getStockInfo} />
                 { stock &&
                     <div>
                         <div>current price: ${stock.current_price}</div>
@@ -36,4 +36,4 @@ class StockWidget extends React.Component {
 	
 }
 
-export default StockWidget;
+export default StockSearch;
