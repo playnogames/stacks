@@ -49,8 +49,9 @@ app.get('/friend/search', async(req,res) => {
 	const friendId = req.query.friendId;
 	let payload;
 
-	try {
-		let friendInfo = await friend.searchFriend(friendId);
+	let friendInfo = await friend.searchFriend(friendId);
+
+	if (friendInfo) {
 		payload = {
 			success: true,
 			data: { 
@@ -60,23 +61,30 @@ app.get('/friend/search', async(req,res) => {
 				picture: friendInfo.picture
 			}
 		}
-	} catch (error) {
-		payload = {error: "no friend found"}
+	} else {
+		payload = {error: "no friend found :("}
 	}
-
-	res.send(payload)
+	
+	res.send(payload);
 })
 
 // request friend by friend id
 app.post('/friend/request', async(req, res) => {
-	let { token, friendId } = req.body
+	let friendId = req.body.friendId;
+	let token = req.headers.authorization.split(' ')[1];
+	let payload;
+
 	try {
-		let personId = await personUtil.verifyPerson(token)
+		let personId = await personUtil.verifyPerson(token);
+		if (personId) {
+			await friend.requestFriend(personId, friendId);
+			payload = {success: true}
+		}
 	} catch (error) {
-		console.log('unable to verify person:', error);
+		payload = { error: "couldn't request friend" }
 	}
 	
-	let friend = await friend.requestFriend(personId, friendId);
+	res.send(payload);
 })
 
 // accept by friend id
@@ -91,7 +99,7 @@ app.post('/friend/accept', async(req, res) => {
 })
 
 // remove by friend id..//send 404 when JWT faills??
-app.post('/friend/accept', async(req, res) => {
+app.post('/friend/remove', async(req, res) => {
 	let { token, friendId } = req.body
 	try {
 		let personId = await personUtil.verifyPerson(token)
@@ -122,11 +130,11 @@ app.get('/auth/facebook/callback',
 
 // receive JWT, look up person, send person data
 app.get('/person', async (req, res) => {
-	let token = req.query.token
+	let token = req.headers.authorization.split(' ')[1]
 	try {
 		let personInfo = await personUtil.getPerson(token)
 		res.send(personInfo);
-	} catch (error) {
-		console.log('unable to verify person:', error);
+	} catch (err) {
+		// need to send some response to display on client
 	}
 })

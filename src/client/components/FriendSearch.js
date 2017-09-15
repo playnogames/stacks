@@ -15,8 +15,6 @@ class FriendSearch extends React.Component {
     async submitFriendSearch(friendId){
         let result = await utils.searchFriend(friendId);
 
-        console.log(result);
-
         if (result.success) {
             this.setState({ 
                 friend: result.data,
@@ -30,7 +28,7 @@ class FriendSearch extends React.Component {
     }
 
     sendFriendRequest(friendId){
-        utils.requestFriend(friendId);
+        let result = utils.requestFriend(friendId);
     }
     
     render(){

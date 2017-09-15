@@ -2,15 +2,22 @@ import db from './db';
 
 export default {
 	async searchFriend(friendId) {
-		let friend = await db.getFriend(friendId);
-		return friend;
+		try {
+			let friendInfo = await db.getFriend(friendId);
+			return friendInfo;
+		} catch (err) {
+			// probably dont need to log this error...this is user error
+			console.log("searchFriend error: ", err);
+			return null;
+		}
 	},
 
 	async requestFriend(personId, friendId) {
 		try {
-			db.requestFriend([personId,friendId]);
-		} catch (error) {
-			console.log(error);
+			await db.requestFriend([personId,friendId]);
+		} catch (err) {
+			console.log('requestFriend error:', err);
+			throw err;
 		}
 	}
 }

@@ -2,31 +2,43 @@ import db from './db';
 import tokenizer from './tokenizer';
 
 export default {
-	async verifyPerson(token){
-		let personId = await tokenizer.verifyToken(token);
-		console.log("verify", personId);
-
-		return personId.personId;
-	},
-
-	async getPerson(token){
-		let personId = await this.verifyPerson(token);
-		console.log("get,", personId);
-		if (personId) {
-			let personInfo = await db.getPerson(personId);
-			console.log("person", personInfo);
-			return personInfo;
+	verifyPerson(token){
+		try {
+			return tokenizer.verifyToken(token);
+		} catch (err) {
+			console.log('couldnt verify person:', err);
+			throw err;
 		}
 	},
 
+	async getPerson(token){
+		let personId = this.verifyPerson(token);
+		try {
+			let personInfo = await db.getPerson(personId);
+			return personInfo;
+		} catch (err) {
+			console.log('couldnt find person:', err);
+			throw err;
+		}
+		
+	},
+
 	async verifyPersonFacebookId(facebookId){
-		//FIX THIS...cant do let personId = await db.verifyPersonFacebookId(facebookId).id because why?
-		let personId = await db.verifyPersonFacebookId(facebookId);
-		return personId.id;
+		try {
+			let personId = await db.verifyPersonFacebookId(facebookId);
+			return personId;
+		} catch (err) {
+			console.log("verifyPersonFacebookId error:", err);
+			return null;
+		}
 	},
 
 	async addPerson(personInfo){
-		let personId = await db.addPerson(personInfo).id;
-		return personId;
+		try {
+			let personId = await db.addPerson(personInfo);
+			return personId;
+		} catch (err) {
+			throw err;
+		}
 	}
 }

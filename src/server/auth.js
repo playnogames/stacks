@@ -26,7 +26,6 @@ function facebookConfig() {
 	    async (accessToken, refreshToken, profile, callback) => {
 	        let person = {};
 	        let personId;
-	        
 	        profile = profile._json;
 	        
 	        person.fbId = profile.id;
@@ -38,18 +37,23 @@ function facebookConfig() {
 
 
 	        try {
-	        	// check DB for person, return person id
+	        	// check DB for person 
+	        	// if found: return person id
+	        	// if not: return null
 	        	personId = await personUtil.verifyPersonFacebookId(person.fbId);
-	        	console.log('user found:', personId);
-	        } catch (error) {
-	        	// if user doesn't exist, add user to DB, return person id
-	        	personId = await personUtil.addPerson(person);
-	        	console.log('user doesnt exist:', error);
-	        }
 
-	        console.log("HEELOOO", personId);
+	        	// if person not in DB, create person 
+	        	if (!personId) {
+	        		console.log("person not found...creating new person")
+	        		personId = await personUtil.addPerson(person);
+	        	}
+	        } catch (err) {
+	        	console.log("addPerson error:", err);
+	        	throw err;
+	        }
+			
 	        // user person id to create JWT token
-	        let token  = await tokenizer.createToken(personId);
+	        let token  = tokenizer.createToken(personId);
 	        callback(null, token);
 	    })
 	);

@@ -16,16 +16,15 @@ class App extends React.Component {
 		utils.setToken();
 
 		this.state = {
-			//get token from localStorage
-			token: utils.getToken(),
+			isAuthenticated: utils.isAuthenticated(),
 			person: null
 		}
 	}
 
 	async componentDidMount() {
-		//after app mounts, if we have token, verify it with server and return person associated with token
-		if (this.state.token) {
-			let person = await utils.getPerson(this.state.token);
+		// after app mounts, if we have token, verify it with server and return person associated with token
+		if (this.state.isAuthenticated) {
+			let person = await utils.getPerson();
 			this.setState({ person });
 		}
 	}

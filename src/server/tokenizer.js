@@ -11,7 +11,7 @@ export default {
 	},
 	verifyToken(token) {
 		// returns object with personId 
-		return jwt.verify(token, 'MY_SECRET_KEY');
+		return jwt.verify(token, 'MY_SECRET_KEY').personId;
 	}
 } 
 	
