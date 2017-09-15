@@ -4,9 +4,10 @@ import bodyParser from 'body-parser';
 
 import db from './db';
 import facebookConfig from './auth';
-import { verifyPerson } from './token';
+// import token from './token';
 import stockUtil from './stock';
-import friends from './friends';
+import friend from './friend';
+import personUtil from './person';
 
 //INIT_______________
 const port = process.env.PORT || 3000;
@@ -43,20 +44,20 @@ app.get('/stock/search', async(req, res) => {
 	res.send(stock);
 });
 
-// search friend by friend id
+// search friend by friend's person id
 app.get('/friend/search', async(req,res) => {
 	const friendId = req.query.friendId;
 	let payload;
 
 	try {
-		let friend = await friends.searchFriend(friendId);
+		let friendInfo = await friend.searchFriend(friendId);
 		payload = {
 			success: true,
 			data: { 
-				friendId: friend.id,
-				firstName: friend.first_name,
-				lastName: friend.last_name,
-				picture: friend.picture
+				friendId: friendInfo.id,
+				firstName: friendInfo.first_name,
+				lastName: friendInfo.last_name,
+				picture: friendInfo.picture
 			}
 		}
 	} catch (error) {
@@ -69,29 +70,35 @@ app.get('/friend/search', async(req,res) => {
 // request friend by friend id
 app.post('/friend/request', async(req, res) => {
 	let { token, friendId } = req.body
-
-	// REFACTOR TO CATCH ERRORS
-	let facebookId = await verifyPerson(token).id;
-	console.log(facebookId)
-	let person = await db.getPerson(facebookId);
-	console.log(person, person.id)
-	// let friend = await friends.requestFriend(personId, friendId);
+	try {
+		let personId = await personUtil.verifyPerson(token)
+	} catch (error) {
+		console.log('unable to verify person:', error);
+	}
+	
+	let friend = await friend.requestFriend(personId, friendId);
 })
 
 // accept by friend id
 app.post('/friend/accept', async(req, res) => {
 	let { token, friendId } = req.body
-	let facebookId = await verifyPerson(token).id;
-	let personId = await db.getPerson(facebookId).id;
-	// let friend = await friends.accept(personId, friendId);
+	try {
+		let personId = await personUtil.verifyPerson(token)
+	} catch (error) {
+		console.log('unable to verify person:', error);
+	}
+	// let friend = await friend.accept(personId, friendId);
 })
 
-// remove by friend id
+// remove by friend id..//send 404 when JWT faills??
 app.post('/friend/accept', async(req, res) => {
 	let { token, friendId } = req.body
-	let facebookId = await verifyPerson(token).id;
-	let personId = await db.getPerson(facebookId).id;
-	// let friend = await friends.remove(personId, friendId);
+	try {
+		let personId = await personUtil.verifyPerson(token)
+	} catch (error) {
+		console.log('unable to verify person:', error);
+	}
+	// let friend = await friend.remove(personId, friendId);
 })
 
 
@@ -115,11 +122,11 @@ app.get('/auth/facebook/callback',
 
 // receive JWT, look up person, send person data
 app.get('/person', async (req, res) => {
+	let token = req.query.token
 	try {
-		let facebookId = await verifyPerson(req.query.token).id;
-		let personInfo = await db.getPerson(facebookId);
+		let personInfo = await personUtil.getPerson(token)
 		res.send(personInfo);
 	} catch (error) {
-		console.log('person not found', error);
+		console.log('unable to verify person:', error);
 	}
 })

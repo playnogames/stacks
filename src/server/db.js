@@ -16,9 +16,10 @@ export default {
         }
     },
 
+    // make stock_id SMALLINT and create another DB table of tickers & 4 digit stock_id
     async createStockLatestTable(){
         try { 
-            let result = await db.query('CREATE TABLE IF NOT EXISTS stock_latest (id SERIAL PRIMARY KEY, ticker VARCHAR(4), closing_price DECIMAL(6,2), current_price DECIMAL(6,2), last_updated TIMESTAMP WITH TIME ZONE)')
+            let result = await db.query('CREATE TABLE IF NOT EXISTS stock_latest (stock_id SERIAL PRIMARY KEY, ticker VARCHAR(4), closing_price DECIMAL(6,2), current_price DECIMAL(6,2), last_updated TIMESTAMP WITH TIME ZONE)')
             console.log('stock_latest table active');
         } catch (error) {
             console.log('create stock table error:', error);
@@ -27,7 +28,7 @@ export default {
 
     async createFriendshipTable(){
         try { 
-            let result = await db.query('CREATE TABLE IF NOT EXISTS friendship (id SERIAL PRIMARY KEY, person_id INT, friend_id INT, created_at TIMESTAMP, status SMALLINT)')
+            let result = await db.query('CREATE TABLE IF NOT EXISTS friendship (friendship_id SERIAL PRIMARY KEY, person_id INT, friend_id INT, created_at TIMESTAMP, status SMALLINT)')
             console.log('friendship table active');
         } catch (error) {
             console.log('create friendship table error:', error);
@@ -36,9 +37,18 @@ export default {
 
 // person ___________________________
 
-    async getPerson(facebookId){
+    async verifyPersonFacebookId(facebookId){
         try {
-            let result = await db.one(`SELECT * FROM person WHERE facebook_id = ${facebookId}`);
+            let result = await db.one(`SELECT id FROM person WHERE facebook_id = ${facebookId}`);
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    async getPerson(personId){
+        try {
+            let result = await db.one(`SELECT * FROM person WHERE id = ${personId}`);
             return result;
         } catch (error) {
             throw error;
@@ -47,7 +57,7 @@ export default {
 
     async addPerson(personInfo){
         try {
-            let result = await db.query('INSERT INTO person(first_name, last_name, email, facebook_id, created_at, picture) VALUES(${first_name}, ${last_name}, ${email}, ${id}, ${created_at}, ${picture})', personInfo)
+            let result = await db.one('INSERT INTO person(first_name, last_name, email, facebook_id, created_at, picture) VALUES(${firstName}, ${lastName}, ${email}, ${fbId}, ${createdAt}, ${picture}) RETURNING id', personInfo)
             console.log('inserted person:', personInfo)
         } catch (error) {
             console.log('addPerson error:', error)
@@ -57,9 +67,9 @@ export default {
 
 // friending ___________________________   
 
-    async getFriend(id){
+    async getFriend(friendId){
         try {
-            let result = await db.one(`SELECT * FROM person WHERE id = ${id}`);
+            let result = await db.one(`SELECT * FROM person WHERE id = ${Id}`);
             return result;
         } catch (error) {
             throw error;

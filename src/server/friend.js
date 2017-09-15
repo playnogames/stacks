@@ -1,8 +1,8 @@
 import db from './db';
 
 export default {
-	async searchFriend(id) {
-		let friend = await db.getFriend(id);
+	async searchFriend(friendId) {
+		let friend = await db.getFriend(friendId);
 		return friend;
 	},
 

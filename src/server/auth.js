@@ -2,7 +2,8 @@ import passport from 'passport';
 import FacebookStrategy from 'passport-facebook';
 import moment from 'moment';
 
-import { createToken } from './token';
+import tokenizer from './tokenizer';
+import personUtil from './person';
 import db from './db';
 
 
@@ -23,24 +24,32 @@ function facebookConfig() {
 	    },
 	    // callback executed after user authenticates on FB page
 	    async (accessToken, refreshToken, profile, callback) => {
-	        let user = profile._json;
-	        user.token = accessToken;
-	        user.email = user.email || null;
-	        user.picture = user.picture.data.url || null;
-	        user.created_at = moment.utc().toISOString();
+	        let person = {};
+	        let personId;
+	        
+	        profile = profile._json;
+	        
+	        person.fbId = profile.id;
+	        person.firstName = profile.first_name;
+	        person.lastName = profile.last_name;
+	        person.email = profile.email || null;
+	        person.picture = profile.picture.data.url || null;
+	        person.createdAt = moment.utc().toISOString();
+
 
 	        try {
-	        	// check DB for user
-	        	let result = await db.getPerson(user.id);
-	        	console.log('user found:', result);
-	        } catch (error){
-	        	// if user doesn't exist, add user to DB
+	        	// check DB for person, return person id
+	        	personId = await personUtil.verifyPersonFacebookId(person.fbId);
+	        	console.log('user found:', personId);
+	        } catch (error) {
+	        	// if user doesn't exist, add user to DB, return person id
+	        	personId = await personUtil.addPerson(person);
 	        	console.log('user doesnt exist:', error);
-	        	db.addPerson(user);
 	        }
 
-	        // create JWT token to be stored in client localStorage
-	        let token  = await createToken(user);
+	        console.log("HEELOOO", personId);
+	        // user person id to create JWT token
+	        let token  = await tokenizer.createToken(personId);
 	        callback(null, token);
 	    })
 	);

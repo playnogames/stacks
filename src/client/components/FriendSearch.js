@@ -15,6 +15,8 @@ class FriendSearch extends React.Component {
     async submitFriendSearch(friendId){
         let result = await utils.searchFriend(friendId);
 
+        console.log(result);
+
         if (result.success) {
             this.setState({ 
                 friend: result.data,
